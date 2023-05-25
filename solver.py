@@ -14,12 +14,14 @@ class Problem:
         return assignments
 
     def backtrack(self, assignments):
+        self.map_plot(assignments)
         if len(assignments) >= len(self.variables):##>=
             return True
 
         variable = self.select_unassigned_variable(assignments)  # 1.select Unassigned Var
 
         for value in self.domains:
+
             if self.is_consistent(variable, value, assignments):#2. select  value (Red->Green->Blue) and check it 
                  assignments[variable] = value
                  if self.backtrack(assignments):
@@ -53,19 +55,21 @@ class Problem:
         # # load the shape file using geopandas
         states = geopandas.read_file(path + 'STE_2016_AUST.shp')
         states = states.to_crs("EPSG:3395")
+        print(states)
         ax2 = states.boundary.plot(figsize=(12, 12), edgecolor=u'gray')
         print(soulation)
         if soulation is not None:
             for k, v in soulation.items():
+                print(k)
                 print( states[states.STE_NAME16 == k])
                 if v == 'R':
-                    states[states.STE_NAME16 == k].plot(edgecolor=u'gray', color='red', ax=ax2)
+                    states[states.STE_NAME16 == k].plot(edgecolor=u'gray', color='yellow', ax=ax2)
                 elif v == 'B':
                     states[states.STE_NAME16 == k].plot(edgecolor=u'gray', color='blue', ax=ax2)
                 elif v == 'G':
                     states[states.STE_NAME16 == k].plot(edgecolor=u'gray', color='green', ax=ax2)
                 else:
-                    states[states.STE_NAME16 == k].plot(edgecolor=u'gray', color='yellow', ax=ax2)
+                    states[states.STE_NAME16 == k].plot(edgecolor=u'gray', color='red', ax=ax2)
 
             plt.show()
 
@@ -75,7 +79,7 @@ class Problem:
 #MAP:::https://www.worldmap1.com/map-australia.asp
 variables = ['Western Australia', 'Northern Territory', 'South Australia', 'Queensland', 'New South Wales', 'Victoria', 'Tasmania']
   # Australia Regions
-domains = ['R', 'G', 'B']
+domains = ['R', 'G', 'B',"R"]
 constraints = [
     ('Western Australia', 'Northern Territory'),
     ('Western Australia', 'South Australia'),
@@ -90,7 +94,12 @@ constraints = [
 ]
 
 problem = Problem(variables, domains, constraints)
-
+#
 # Solve the problem
 solution = problem.solve()
 print(solution)
+
+
+# states = geopandas.read_file("./canda_map/canda_map.shp")
+# states = states.to_crs("EPSG:3395")
+# print("sdfsfd",states)
