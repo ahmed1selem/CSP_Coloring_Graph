@@ -2,7 +2,7 @@ from solver import *
 
 # Define the problem
 # Define the variables (regions) and their possible values (colors)
-mapChoice =input("Choose map: \n1. Australia \n2. USA")
+mapChoice =input("Choose map: \n1. Australia \n2. Canada")
 if mapChoice=="Australia":
     variables = ['Western Australia', 'Northern Territory', 'South Australia', 'Queensland', 'New South Wales',
                  'Victoria', 'Tasmania']
